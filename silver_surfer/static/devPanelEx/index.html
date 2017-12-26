@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo</title>
+    <link type="text/css" rel="stylesheet" href="css/MarvelRackPanel.css"/>
+    <script type="application/javascript" src="lib/jquery-3.2.1.min.js"></script>
+    <script type="application/javascript" src="lib/svg.min.js"></script>
+    <script type="application/javascript" src="js/MarvelRackPanel.js"></script>
+    <script>
+        $(document).ready(function () {
+            //1.addRack
+            var MarvelRackPanel = new $.MarvelRackPanel();
+            $("#id1").click(function () {
+                var options = {
+                    id: "rackPanel",
+                    buObjId: "jigui_1",
+                    imgUrl: "image/rack1.txt",
+                    subBuObjIds: ["bd0", "bd1", "bd2", "bd3", "bd4"]
+                };
+                var oEventOptions = {
+                    callbackOnClick: function (strBuObjId, strSubBuObjId, evt) {
+                        if (strSubBuObjId == "bd1") {
+                            MarvelRackPanel.addNode(strSubBuObjId, "image/dev1.txt", function () {
+                                console.log("add successfully");
+                            });
+                        }
+                        else if (strSubBuObjId == "bd3") {
+                            MarvelRackPanel.addNode(strSubBuObjId, "image/dev1.txt", function () {
+                                console.log("add successfully");
+                            });
+                        }
+                    },
+                    callbackOnContextmenu: function (strBuObjId, strSubBuObjId, evt) {
+                        console.log("callbackOnContextmenu");
+                    }
+                };
+                MarvelRackPanel.init(options, oEventOptions);
+            });
+
+            $("#id2").click(function () {
+                MarvelRackPanel.removeNode("bd1");
+            });
+            $("#id3").click(function () {
+                MarvelRackPanel.setActiveStyle("bd1");
+            });
+            $("#id4").click(function () {
+                MarvelRackPanel.removeAllActiveStyle();
+            });
+        });
+    </script>
+</head>
+<body>
+<button id="id1">加载机柜</button>
+<button id="id2">删除面板</button>
+<button id="id3">设置选中样式</button>
+<button id="id4">清除所有选中样式</button>
+<div id="rackPanel" style="width: 400px; height: 600px;"></div>
+</body>
+</html>
