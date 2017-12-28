@@ -27,6 +27,9 @@
                                                    v-on:onClick="onClick4MsgMap">
                             </marvel-primary-button>
                         </div>
+                        <div class="goUp icon-undo2"
+                             v-show="showGoUp"
+                             v-on:click="onGoUpClick"></div>
                         <div class="addComponentBtn2">
                             <marvel-primary-button label="添加组件"
                                                    v-on:onClick="onClick4MidBottomLeft">
@@ -203,6 +206,25 @@
                 //#endregion
             };
         },
+        computed: {
+            showGoUp: function () {
+                var iCurPageItemIndex = 0;
+                for (var i = 0; i < this.pageItemLst.length; i++) {
+                    var oPageItem = this.pageItemLst[i];
+                    if (oPageItem.pageId == this.curPageItem.pageId) {
+                        iCurPageItemIndex = i;
+                        break;
+                    }
+                }
+
+                if(iCurPageItemIndex != 0){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            },
+        },
         mounted: function () {
             //#region custom
 
@@ -362,7 +384,7 @@
                 this.$refs[strTo].doSth(oParams);
             },
             onCompGoDown4Right: function (oParams) {
-                this._setNextLevelPageItem(oParams);
+                this._goDown(oParams);
             },
 
             onCompClick4Mid: function (oParams) {
@@ -378,22 +400,42 @@
                 }
             },
             onCompGoDown4Mid: function (oParams) {
-                this._setNextLevelPageItem(oParams);
+                this._goDown(oParams);
             },
 
-            _setNextLevelPageItem: function (oParams) {
+            onGoUpClick: function () {
+                this._goUp();
+            },
+
+            _goDown: function (oParams) {
                 var iCurPageItemIndex = 0;
                 for (var i = 0; i < this.pageItemLst.length; i++) {
                     var oPageItem = this.pageItemLst[i];
-                    if(oPageItem.pageId == this.curPageItem.pageId){
+                    if (oPageItem.pageId == this.curPageItem.pageId) {
                         iCurPageItemIndex = i;
                         break;
                     }
                 }
 
-                if(iCurPageItemIndex + 1 < this.pageItemLst.length - 1){
+                if (iCurPageItemIndex + 1 < this.pageItemLst.length - 1) {
                     this.curPageItem = this.pageItemLst[iCurPageItemIndex + 1];
                     console.log("GoDown...", oParams);
+                }
+            },
+            _goUp: function (oParams) {
+                var iCurPageItemIndex = 0;
+                for (var i = 0; i < this.pageItemLst.length; i++) {
+                    var oPageItem = this.pageItemLst[i];
+                    if (oPageItem.pageId == this.curPageItem.pageId) {
+                        iCurPageItemIndex = i;
+                        break;
+                    }
+                }
+
+                if (iCurPageItemIndex - 1 < this.pageItemLst.length - 1 &&
+                    iCurPageItemIndex - 1 >= 0) {
+                    this.curPageItem = this.pageItemLst[iCurPageItemIndex - 1];
+                    console.log("GoUp...", oParams);
                 }
             },
 
@@ -548,6 +590,23 @@
         height: 100%;
         background-color: rgb(41, 49, 82);
         position: relative;
+    }
+
+    .part2 .cont .mid .goUp {
+        width: 32px;
+        height: 32px;
+        border-radius: 100%;
+        background-color: #2dcca6;
+        float: right;
+        position: absolute;
+        top: 10px;
+        right: 244px;
+        color: #ffffff;
+        font-size: 18px;
+        line-height: 32px;
+        text-align: center;
+        cursor: pointer;
+        z-index: 1001;
     }
 
     .part2 .cont .mid .addComponentBtn1 {
