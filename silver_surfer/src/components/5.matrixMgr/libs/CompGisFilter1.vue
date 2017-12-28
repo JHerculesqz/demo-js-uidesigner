@@ -13,14 +13,10 @@
         data: function () {
             return {
                 //#region const
-                debug: true,
+
                 //#endregion
                 //#region foldPanel
-                foldPanel: [{
-                    name: "行业选择",
-                    height: "200px",
-                    bIsExpand: true
-                }]
+
                 //#endregion
             };
         },

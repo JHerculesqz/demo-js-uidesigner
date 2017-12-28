@@ -65,13 +65,17 @@
 
             //#region destroy
 
+            _killMe: function () {
+
+            },
+
             //#endregion
 
             //#region gis
 
             onClick: function () {
                 this.onCompClick4Mid({a: 41});
-                //this.onCompGoDown4Mid({a: 42});
+//                this.onCompGoDown4Mid({a: 42});
             },
 
             //#endregion
@@ -80,9 +84,6 @@
             //#region callback
             onCompClick4Mid: function (oParams) {
                 this.$emit("onCompClick4Mid", oParams);
-            },
-            onCompClick4MidNode: function (oParams) {
-                this.$emit("onCompClick4MidNode", oParams);
             },
             //#endregion
             //#region 3rd
