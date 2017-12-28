@@ -101,6 +101,12 @@
     border: 1px solid #3dcca6;
   }
 
+  .dark .disable .inputDefault {
+    background-color: rgba(0, 0, 0, 0.4);
+    color: #8d8d8d;
+    pointer-events: none;
+  }
+
   /*endregion*/
 
 

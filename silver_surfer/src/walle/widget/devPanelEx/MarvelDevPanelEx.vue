@@ -67,6 +67,9 @@
       },
       removeAllActiveStyle() {
         this.devPanelObj.removeAllActiveStyle();
+      },
+      exportPng(strPicName, oOptions) {
+        this.devPanelObj.exportPng(strPicName, oOptions);
       }
       //endregion
     }

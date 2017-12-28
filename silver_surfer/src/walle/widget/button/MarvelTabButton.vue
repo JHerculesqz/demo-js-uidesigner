@@ -1,5 +1,5 @@
 <template>
-  <div class="btn" v-bind:class="{ active: isActive }"
+  <div class="btn" v-bind:class="[{ active: isActive }, {tip:isWarn}]"
        v-on:click="onClick">
     {{ label }}
   </div>
@@ -8,7 +8,7 @@
 <script>
   export default {
     name: 'MarvelTabButton',
-    props: ["label"],
+    props: ["label", "isWarn"],
     data: function() {
         return {
           isActive: false
@@ -40,12 +40,23 @@
     border: 0.4px dashed #cccccc;
     margin-right: 20px;
     padding: 0 10px;
+    position: relative;
   }
   .btn:hover {
     color: #3399ff;
   }
   .btn:last-child{
     margin-right: 0;
+  }
+  .tip:after{
+    content:"";
+    position: absolute;
+    top: 1px;
+    left: 2px;
+    width: 8px;
+    height: 8px;
+    border-radius: 100%;
+    background-color: #ff4400;
   }
   .active {
     border: 0.4px solid #3399ff;

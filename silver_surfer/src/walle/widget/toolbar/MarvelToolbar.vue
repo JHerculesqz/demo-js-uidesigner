@@ -12,7 +12,8 @@
         <div class="toolbarSubMenu" v-if="item.subMenu != undefined" v-bind:class="{dpn: item.label != selectItem.label}">
           <div class="toolbarSubMenuItem"  v-for="subItems in item.subMenu"
                v-on:click="onToolbarSubItemClick($event, subItems, item)"
-               v-bind:key="subItems.id">
+               v-bind:key="subItems.id"
+               v-bind:class="[{dpn: subItems.visible === false},{disable: subItems.disable === true}]">
             <div class="iconArea" v-bind:class="subItems.icon"></div>
             <div class="textArea">{{subItems.label}}</div>
           </div>
@@ -147,6 +148,15 @@
   color: #666;
   display: inline-block;
 }
+.toolbarWrapper .toolbarItem .toolbarSubMenu .disable{
+  pointer-events: none;
+}
+.toolbarWrapper .toolbarItem .toolbarSubMenu .disable .iconArea{
+  color: #999;
+}
+.toolbarWrapper .toolbarItem .toolbarSubMenu .disable .textArea{
+  color: #999;
+}
 .toolbarWrapper .toolbarItem:hover{
   border: 1px solid #3399ff;
   background-color: rgba(51, 153, 255, 0.2);
@@ -191,6 +201,15 @@
 }
 .dark .toolbarItem .toolbarSubMenu .toolbarSubMenuItem .textArea{
   color: #fff;
+}
+.dark .toolbarWrapper .toolbarItem .toolbarSubMenu .disable{
+  pointer-events: none;
+}
+.dark .toolbarWrapper .toolbarItem .toolbarSubMenu .disable .iconArea{
+  color: #999;
+}
+.dark .toolbarWrapper .toolbarItem .toolbarSubMenu .disable .textArea{
+  color: #999;
 }
 .dark .disable{
   pointer-events: none;

@@ -3,17 +3,17 @@
     <div class="dropdownBtn"
          v-bind:class="disable"
          v-bind:style="{ width: width }">
-      <div class="label" v-on:click.stop="showOrHide">
+      <div class="label" v-on:click.stop="showOrHide" :class="labelClass">
         <div class="icon"
              v-bind:class="[selectItem.icon]"></div>
-        <div class="name">{{ selectItem.label }}</div>
+        <div class="name" >{{ selectItem.label }}</div>
         <div class="expandAndFolderIcon icon-marvelIcon-24"></div>
       </div>
       <div class="options" v-bind:class="{ hide: !show }" v-click-outside="hideSubMenu"
            v-bind:style="{'max-height': maxHeight}">
         <div class="optionItem"
              v-for="item in items"
-             v-bind:class="{ mouseDown: item.label == selectItem.label }"
+             v-bind:class="[{'mouseDown': item.label == selectItem.label}, optionItemClass(item)]"
              v-on:click.stop="selectClick(item)">
           <div class="icon" v-bind:class="[item.icon]"></div>
           <div class="name">{{ item.label }}</div>
@@ -30,8 +30,21 @@
     data: function () {
       return {
         items: [],
-        selectItem: {label: "Item1", icon: "icon-pencil"},
+        selectItem: {label: "", icon: ""},
         show: false
+      }
+    },
+    computed:{
+      labelClass: function () {
+        if(this.width!==undefined && this.width!== ''){
+          if(this.selectItem.icon !==undefined  && this.selectItem.icon !== ''){
+            return 'adaptToParentWithIcon';
+          }else{
+            return 'adaptToParentWithOutIcon';
+          }
+        }else{
+          return '';
+        }
       }
     },
     methods: {
@@ -60,6 +73,27 @@
       },
       getSelectItemObj: function () {
         return this.selectItem;
+      },
+      optionItemClass: function(oItem){
+        var strClass = "";
+        if(this.width!==undefined && this.width!== ''){
+          if(oItem.icon !==undefined  && oItem.icon !== ''){
+            strClass = strClass + ' adaptToParentWithIcon';
+          }else{
+            strClass = strClass + ' adaptToParentWithOutIcon';
+          }
+        }
+
+        return strClass;
+      },
+      setSelectItem: function (strLabel) {
+        for (var i = 0; i < this.items.length; i++) {
+          var oItem = this.items[i];
+          if (oItem.label == strLabel) {
+            this.selectItem = oItem;
+            break;
+          }
+        }
       }
     },
     directives: {
@@ -120,6 +154,34 @@
     line-height: 30px;
     display: inline-block;
     margin-right: 10px;
+  }
+
+  .dropdownBtn .adaptToParentWithIcon .icon{
+    display: block;
+    float: left;
+  }
+
+  .dropdownBtn .adaptToParentWithIcon .name{
+    display: block;
+    float: left;
+    width: calc(100% - 29px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .dropdownBtn .adaptToParentWithOutIcon .icon{
+    display: none;
+    float: left;
+  }
+
+  .dropdownBtn .adaptToParentWithOutIcon .name{
+    display: block;
+    float: left;
+    width: calc(100% - 10px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .dropdownBtn .label .expandAndFolderIcon {
@@ -189,6 +251,34 @@
 
   .dropdownBtn .options .mouseDown .name, .dropdownBtn .options .mouseDown .icon {
     color: #fff !important;
+  }
+
+  .dropdownBtn .options .adaptToParentWithIcon .icon{
+    display: block;
+    float: left;
+  }
+
+  .dropdownBtn .options .adaptToParentWithIcon .name{
+    display: block;
+    float: left;
+    width: calc(100% - 29px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .dropdownBtn .options .adaptToParentWithOutIcon .icon{
+    display: none;
+    float: left;
+  }
+
+  .dropdownBtn .options .adaptToParentWithOutIcon .name{
+    display: block;
+    float: left;
+    width: calc(100% - 10px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .disable {

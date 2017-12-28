@@ -1,13 +1,13 @@
 <template>
   <div class="primaryBtn"
-       v-bind:class="[size, mouseDown, focus, disable, classCustom]"
+       v-bind:class="[size, mouseDown, focus, disable, classCustom, {tip:isWarn}]"
        v-on:click="onClick">{{ label }}</div>
 </template>
 
 <script>
   export default {
     name: 'MarvelPrimaryButton',
-    props: ["size", "classCustom", "label"],
+    props: ["size", "classCustom", "label", "isWarn"],
     data: function() {
         return {
           large: "",
@@ -47,9 +47,20 @@
     display: inline-block;
     border-radius: 2px;
     cursor: pointer;
+    position: relative;
   }
   .primaryBtn:hover{
     background-color: #60b0ff;
+  }
+  .tip:after{
+    content:"";
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 100%;
+    background-color: #ff4400;
   }
   .large{
     height: 40px;
@@ -57,9 +68,17 @@
     font-size: 16px;
     line-height: 40px;
   }
+
+  .small{
+    height: 26px;
+    padding: 0 16px;
+    font-size: 14px;
+    line-height: 26px;
+  }
+
   .mini{
     height: 22px;
-    padding: 0 16px;
+    padding: 0 10px;
     font-size: 12px;
     line-height: 22px;
   }

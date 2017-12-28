@@ -10,6 +10,7 @@
       <div class="treeItemCustomIcon"
            v-if="hasIcon"
            v-bind:class="model.icon"
+           v-bind:style="treeIconStyle"
            v-on:click.stop="onTreeNodeClickInner"></div>
       <div class="treeItemName" v-bind:style="{'max-width':getWidth}"
            v-bind:class="activeClass"
@@ -53,10 +54,13 @@
       if (!this.model.hasOwnProperty("check")) {
         this.$set(this.model, "check", false);
       }
-      if (this.treeItemOptions.hasActiveStyle){
-        if(!this.model.hasOwnProperty("active")){
+      if (this.treeItemOptions.hasActiveStyle) {
+        if (!this.model.hasOwnProperty("active")) {
           this.$set(this.model, "active", false);
         }
+      }
+      if (!this.model.hasOwnProperty("iconColor")) {
+        this.$set(this.model, "iconColor", "");
       }
     },
     computed: {
@@ -74,24 +78,29 @@
       hasIcon: function () {
         return this.model.icon != undefined;
       },
+      treeIconStyle: function () {
+        return {
+          color: this.model.iconColor
+        }
+      },
       showNode: function () {
         return this.model.bShow !== false;
       },
-      activeClass: function(){
-        if(this.treeItemOptions.hasActiveStyle){
-          if(this.model.active){
+      activeClass: function () {
+        if (this.treeItemOptions.hasActiveStyle) {
+          if (this.model.active) {
             return "active"
           }
         }
         return "";
       },
-      getWidth: function(){
-        if(this.model.icon != undefined && this.treeItemOptions.hasCheckbox){
-          return  "calc(100% - 66px)";
-        }else if(this.model.icon != undefined || this.treeItemOptions.hasCheckbox){
-          return  "calc(100% - 50px)";
-        }else{
-          return  "calc(100% - 34px)";
+      getWidth: function () {
+        if (this.model.icon != undefined && this.treeItemOptions.hasCheckbox) {
+          return "calc(100% - 66px)";
+        } else if (this.model.icon != undefined || this.treeItemOptions.hasCheckbox) {
+          return "calc(100% - 50px)";
+        } else {
+          return "calc(100% - 34px)";
         }
       }
     },
@@ -104,8 +113,8 @@
       onCheckboxClick: function (oTreeNode) {
         this.$emit("onCheckboxClick", oTreeNode);
       },
-      onTreeNodeClickInner: function(){
-        if(this.treeItemOptions.hasActiveStyle){
+      onTreeNodeClickInner: function () {
+        if (this.treeItemOptions.hasActiveStyle) {
           this.$set(this.model, "active", true);
         }
         this.$emit("onTreeNodeClick", this.model);
@@ -115,7 +124,7 @@
       }
     },
     watch: {
-      "model.bOpen": function(oNewValue, oOldValue){
+      "model.bOpen": function (oNewValue, oOldValue) {
         this.open = oNewValue;
       }
     }
@@ -143,7 +152,7 @@
     float: left;
   }
 
-  .treeItemCont .treeItemCheck{
+  .treeItemCont .treeItemCheck {
     float: left;
     height: 12px;
     width: 12px;
@@ -151,7 +160,7 @@
     margin-right: 4px;
   }
 
-  .treeItemCont .treeItemCheck .treeitemCheckbox{
+  .treeItemCont .treeItemCheck .treeitemCheckbox {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -196,14 +205,13 @@
     color: #3399ff;
   }
 
-  .active{
+  .active {
     background-color: #3399ff;
   }
 
   .treeItemSubItems {
     padding-left: 16px;
   }
-
 
   .dark .treeItemIcon {
     color: #FFFFFF;
@@ -229,7 +237,7 @@
     color: #3dcca6;
   }
 
-  .dark .active{
+  .dark .active {
     background-color: rgba(61, 202, 166, 0.4);
     border: 1px solid #3dcca6;
   }

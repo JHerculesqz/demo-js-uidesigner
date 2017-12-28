@@ -1,7 +1,7 @@
 <template>
 
   <div class="searchWrapper" :class="{searchInputEx : mixin=='true'}">
-    <input type="text" class="searchInput" v-bind:placeholder="placeholder" v-model="inputVal">
+    <input type="text" class="searchInput" v-bind:placeholder="placeholder" v-model="inputVal" @keyup.enter="search">
     <div class="searchBtn icon-marvelIcon-19" v-on:click="search"></div>
     <div class="deleBtn icon-marvelIcon-20" v-bind:class="{dpn: inputVal == ''}" @click="clear"></div>
   </div>

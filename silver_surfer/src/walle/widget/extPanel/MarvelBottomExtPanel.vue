@@ -40,6 +40,7 @@
     methods: {
       onExpandBtnClick: function () {
         this.showEx = !this.showEx;
+        this.$emit("onExpandBtnClick", this.showEx);
       },
       mouseDown: function(e){
         if(this.canDrag){

@@ -51,7 +51,7 @@
         type: Number,
         default: 7,
         validator: function (value) {
-          return value > 5 && value % 2 == 1;
+          return value >= 3 && value % 2 == 1;
         }
       }
     },
@@ -85,6 +85,8 @@
     methods: {
       _preHandleData() {
         this.curPageIndex = 1;
+        this.pagesEx = [];
+        this.pagination = [];
         for (let i = 0; i < this.pages; i++) {
           this.pagesEx.push(i + 1);
         }

@@ -31,10 +31,11 @@
     name: "MarvelSearchWithDropDown",
     data: function () {
       return {
-        searchAreaW:""
+        searchAreaW: "",
       }
     },
     props: ["placeholder", "selectItems"],
+    computed: {},
     methods: {
       search: function (strSearchVal) {
         let searchKey = this.$refs.ref1.getSelectItem();
@@ -51,9 +52,10 @@
       }
       this.$refs.ref1.init(this.selectItems, selectLabel);
 
-      //set searchAreaW
-      var iDropW = parseInt(this.$refs.ref1.$el.clientWidth) + 5;
-      this.searchAreaW = "calc( 100% - " + iDropW + "px)";
+      this.$nextTick(function () {
+        var iDropW = parseInt(this.$refs.ref1.$el.clientWidth) + 5;
+        this.searchAreaW = "calc( 100% - " + iDropW + "px)";
+      });
     },
   }
 
@@ -61,7 +63,7 @@
 
 <style scoped>
   /*search dropDown*/
-  .search_dropDown{
+  .search_dropDown {
     height: 32px;
     display: inline-block;
     position: relative;
@@ -70,10 +72,12 @@
     box-sizing: border-box;
     width: 100%;
   }
-  .search_dropDown:hover{
+
+  .search_dropDown:hover {
     border: 1px solid #3399ff;
   }
-  .search_dropDown .dropdownArea{
+
+  .search_dropDown .dropdownArea {
     display: inline-block;
     height: 32px;
     float: left;
@@ -81,7 +85,8 @@
     top: -1px;
     left: -1px;
   }
-  .search_dropDown .searchArea{
+
+  .search_dropDown .searchArea {
     display: inline-block;
     height: 30px;
     position: absolute;
@@ -92,10 +97,11 @@
 
   /*region dark theme*/
 
-  .dark .search_dropDown{
+  .dark .search_dropDown {
     border: 1px solid #8b90b3;
   }
-  .dark .search_dropDown:hover{
+
+  .dark .search_dropDown:hover {
     border: 1px solid #3dcca6;
   }
 

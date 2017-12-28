@@ -68,15 +68,16 @@
                 linkType1: "#ababb5",
                 linkType2: "#FF4c4c",
                 linkType3: "#ff8833",
-                linkType_fiber: "#8b90b3", //光纤
-                linkType_lu_1: "#494560", //链路利用率=0
+                linkType_fiber: "#22fcff", //光纤
+                linkType_lu_1: "#8b90b3", //链路利用率=0
                 linkType_lu_2: "#3dcca6", //链路利用率大于0小于等于50
                 linkType_lu_3: "#ff8833", //链路利用率大于50小于等于80
-                linkType_lu_4: "#ff4c4c", //链路利用率大于80
+                linkType_lu_4: "#a30000", //链路利用率大于80
                 linkType_wf: "#006ad4", //正向工作
                 linkType_fp: "#f464ac", //正向保护
                 linkType_rw: "#3399ff", //反向工作
-                linkType_rp: "#94c94f" //反向保护
+                linkType_rp: "#94c94f", //反向保护
+                linkType_gf: "#8b2fe3" //分组连纤
               }
             }
           }
@@ -167,8 +168,8 @@
       updateTopo: function (oTopoData) {
         this.oTopo.Api.updateTopo(this.oTopo, oTopoData);
       },
-      createNode: function(oBuObj, oAfterCallback){
-        this.oTopo.Api.createNode(oBuObj, oAfterCallback, this.oTopo);
+      createNode: function(oBuObj, oAfterCallback, bAutoCreate){
+        this.oTopo.Api.createNode(oBuObj, oAfterCallback, bAutoCreate, this.oTopo);
       },
       savePosition: function(){
         this.oTopo.Api.savePosition(this.oTopo);
@@ -188,6 +189,9 @@
       createLink: function(oAfterCallback){
         this.oTopo.Api.createLink(this.oTopo, oAfterCallback);
       },
+      getPosChangeTopoCache: function(){
+        return this.oTopo.Api.getPosChangeTopoCache(this.oTopo);
+      }
     }
   }
 </script>

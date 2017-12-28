@@ -21,46 +21,57 @@
   export default {
     name: 'MarvelTab',
     props: ["tabItems"],
-    data: function() {
-        return {
-
-        }
+    data: function () {
+      return {}
     },
     methods: {
-      onTabClick: function(strTabLabel){
-        for(var iIndex = 0;iIndex < this.tabItems.length;iIndex++){
+      onTabClick: function (strTabLabel) {
+        for (var iIndex = 0; iIndex < this.tabItems.length; iIndex++) {
           var oTabItem = this.tabItems[iIndex];
-          if(oTabItem.label == strTabLabel){
+          if (oTabItem.label == strTabLabel) {
             oTabItem.isActive = true;
           }
-          else{
+          else {
             oTabItem.isActive = false;
           }
         }
         this.$emit("onTabClick", strTabLabel)
+      },
+      setActiveTabItem: function (strTabLabel) {
+        this.tabItems.forEach((oItem) => {
+          if (oItem.label == strTabLabel) {
+            oItem.isActive = true;
+          }
+          else {
+            oItem.isActive = false;
+          }
+        });
       }
     }
   }
 </script>
 
 <style scoped>
-  .tabOutsideBox{
+  .tabOutsideBox {
     width: 100%;
     height: 100%;
   }
-  .tabWrapper{
+
+  .tabWrapper {
     width: 100%;
     height: 100%;
     padding: 10px;
     border: 1px solid #cccccc;
     box-sizing: border-box;
   }
-  .tabWrapper .headArea{
+
+  .tabWrapper .headArea {
     height: 30px;
     border-bottom: 1px solid #cccccc;
     clear: both;
   }
-  .tabWrapper .headArea .headItem{
+
+  .tabWrapper .headArea .headItem {
     height: 100%;
     line-height: 30px;
     float: left;
@@ -70,36 +81,42 @@
     padding: 0 10px;
     cursor: pointer;
   }
-  .tabWrapper .headArea .headItem:hover{
+
+  .tabWrapper .headArea .headItem:hover {
     color: #3399ff;
   }
-  .tabWrapper .contArea{
+
+  .tabWrapper .contArea {
     width: 100%;
     height: calc(100% - 30px);
     clear: both;
     background-color: #ffffff;
   }
-  .tabWrapper .contArea .cont{
+
+  .tabWrapper .contArea .cont {
     width: 100%;
     height: 100%;
   }
-  .dpn{
+
+  .dpn {
     display: none;
   }
 
-  .theme1 .headArea .headItem{
-    border-bottom: 3px solid rgba(0,0,0,0);
+  .theme1 .headArea .headItem {
+    border-bottom: 3px solid rgba(0, 0, 0, 0);
     line-height: 27px;
   }
-  .theme1 .headArea .active{
+
+  .theme1 .headArea .active {
     border-bottom: 3px solid #3399ff;
     box-sizing: border-box;
   }
 
-  .theme2 .headArea .headItem{
+  .theme2 .headArea .headItem {
     /*margin-top: 1px;*/
   }
-  .theme2 .headArea .active{
+
+  .theme2 .headArea .active {
     border-top: 1px solid #cccccc;
     border-left: 1px solid #cccccc;
     border-right: 1px solid #cccccc;
@@ -109,43 +126,50 @@
 
   /*region dark theme*/
 
-  .dark .tabWrapper{
+  .dark .tabWrapper {
     border: 1px solid transparent;
     background-color: #161C36;
   }
-  .dark .tabWrapper .headArea{
+
+  .dark .tabWrapper .headArea {
     border-bottom: 1px solid rgb(128, 128, 128);
   }
-  .dark .tabWrapper .headArea .headItem{
+
+  .dark .tabWrapper .headArea .headItem {
     color: #FFFFFF;
   }
-  .dark .tabWrapper .headArea .headItem:hover{
+
+  .dark .tabWrapper .headArea .headItem:hover {
     color: #3399ff;
   }
-  .dark .tabWrapper .contArea{
+
+  .dark .tabWrapper .contArea {
     background-color: transparent;
   }
-  .dark .tabWrapper .contArea .cont{
+
+  .dark .tabWrapper .contArea .cont {
   }
 
-  .dark .theme1 .headArea .headItem{
-    border-bottom: 3px solid rgba(0,0,0,0);
+  .dark .theme1 .headArea .headItem {
+    border-bottom: 3px solid rgba(0, 0, 0, 0);
     line-height: 27px;
   }
-  .dark .theme1 .headArea .active{
+
+  .dark .theme1 .headArea .active {
     border-bottom: 3px solid #3399ff;
     box-sizing: border-box;
     font-weight: bold;
 
   }
 
-  .dark .theme2 .headArea .headItem{
+  .dark .theme2 .headArea .headItem {
     /*margin-top: 1px;*/
   }
-  .dark .theme2 .headArea .active{
-    border-top: 1px solid  rgb(128, 128, 128);
-    border-left: 1px solid  rgb(128, 128, 128);
-    border-right: 1px solid  rgb(128, 128, 128);
+
+  .dark .theme2 .headArea .active {
+    border-top: 1px solid rgb(128, 128, 128);
+    border-left: 1px solid rgb(128, 128, 128);
+    border-right: 1px solid rgb(128, 128, 128);
     background-color: #161C36;
 
   }

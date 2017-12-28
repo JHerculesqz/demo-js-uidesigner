@@ -6,9 +6,6 @@
                 <li>
                     <router-link :to="{name:'matrixMgr'}" exact>指标管理</router-link>
                 </li>
-                <li>
-                    <router-link :to="{name:'preview'}" exact>预览</router-link>
-                </li>
             </ul>
         </div>
         <div class="content">

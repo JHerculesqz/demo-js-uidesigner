@@ -39,6 +39,7 @@
                         </div>
                         <component :is="curPageItem.compName4Mid"
                                    :ref="curPageItem.compName4Mid"
+                                   id="CompGis1"
                                    v-on:onCompClick4Mid="onCompClick4Mid"
                                    v-on:onCompGoDown4Mid="onCompGoDown4Mid"></component>
                     </div>
@@ -107,12 +108,12 @@
     import MarvelPrimaryButton from "@/walle/widget/button/MarvelPrimaryButton";
     import MarvelFoldPanel from "@/walle/widget/foldPanel/MarvelFoldPanel";
     import MatrixDialog from "./MatrixDialog";
+    import MatrixMsgMapDialog from "./MatrixMsgMapDialog";
     //#region code generation
     import CompGis1 from "./libs/CompGis1";
     import CompGisFilter1 from "./libs/CompGisFilter1";
     import CompGrid1 from "./libs/CompGrid1";
     import CompChart1 from "./libs/CompChart1";
-    import MatrixMsgMapDialog from "./MatrixMsgMapDialog";
     //#endregion
 
     export default {
@@ -157,8 +158,15 @@
                     icon: "icon-drawer",
                     visible: true,
                     disable: false,
+                }, {
+                    id: 5,
+                    label: "预览",
+                    icon: "icon-camera",
+                    visible: true,
+                    disable: false,
                 }],
-                pageType: "matrix",//"matrix","conf","result"
+                pageType: "matrix",//"matrix","conf","result",
+                res: {},
                 //#endregion
                 //#region matrix
                 pageItemLst: [],
@@ -230,12 +238,24 @@
                     this.pageType = "result";
                 }
                 else if (oToolbarItem.id == 4) {
-                    var oRes = {
+                    this.res = {
                         matrix: this.pageItemLst,
                         conf: this.compName4MidConf,
                         result: this.compName4MidResult
                     };
-                    console.log(oRes);
+                    window.res = this.res;
+                    window.pageType = this.pageType;
+                    console.log(this.res);
+                }
+                else if (oToolbarItem.id == 5) {
+                    this.res = {
+                        matrix: this.pageItemLst,
+                        conf: this.compName4MidConf,
+                        result: this.compName4MidResult
+                    };
+                    window.res = this.res;
+                    window.pageType = this.pageType;
+                    MarvelRouter.to(this.$router, "preview");
                 }
             },
 
@@ -342,7 +362,7 @@
                 this.$refs[strTo].doSth(oParams);
             },
             onCompGoDown4Right: function (oParams) {
-                console.log(oParams);
+                this._setNextLevelPageItem(oParams);
             },
 
             onCompClick4Mid: function (oParams) {
@@ -358,7 +378,23 @@
                 }
             },
             onCompGoDown4Mid: function (oParams) {
-                console.log(oParams);
+                this._setNextLevelPageItem(oParams);
+            },
+
+            _setNextLevelPageItem: function (oParams) {
+                var iCurPageItemIndex = 0;
+                for (var i = 0; i < this.pageItemLst.length; i++) {
+                    var oPageItem = this.pageItemLst[i];
+                    if(oPageItem.pageId == this.curPageItem.pageId){
+                        iCurPageItemIndex = i;
+                        break;
+                    }
+                }
+
+                if(iCurPageItemIndex + 1 < this.pageItemLst.length - 1){
+                    this.curPageItem = this.pageItemLst[iCurPageItemIndex + 1];
+                    console.log("GoDown...", oParams);
+                }
             },
 
             //#endregion
@@ -384,8 +420,6 @@
             //#region dialog
 
             afterApplyDialog: function (oFromWho, strCompName) {
-                console.log(oFromWho);
-                console.log(strCompName);
                 if (oFromWho == "compName4Mid") {
                     this.curPageItem.compName4Mid = strCompName;
                 }
@@ -419,7 +453,7 @@
     }
 </script>
 
-<style>
+<style scoped>
     .matrixMgrWrapper {
         height: 100%;
     }
