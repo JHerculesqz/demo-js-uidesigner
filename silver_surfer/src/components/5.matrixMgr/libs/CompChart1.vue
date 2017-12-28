@@ -48,12 +48,14 @@
             //#region callback
 
             onCompClick4Right: function () {
-                this.$emit("onCompClick4Right", "CompChart1", "一块饼");
+                this.$emit("onCompClick4Right", {a: 2});
             },
 
             //#endregion
             //#region 3rd
-
+            doSth: function (oParams) {
+                console.log("CompChart1", oParams);
+            },
             //#endregion
         }
     }

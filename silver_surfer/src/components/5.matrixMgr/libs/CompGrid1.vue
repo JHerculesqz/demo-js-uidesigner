@@ -48,12 +48,15 @@
             //#region callback
 
             onCompClick4Right: function () {
-                this.$emit("onCompClick4Right", "CompGrid1", "第一行");
+                this.$emit("onCompClick4Right", {a: 31});
+//                this.$emit("onCompGoDown4Right", {a: 32});
             },
 
             //#endregion
             //#region 3rd
-
+            doSth: function (oParams) {
+                console.log("CompGrid1", oParams);
+            },
             //#endregion
         }
     }

@@ -54,12 +54,14 @@
             //#region callback
 
             onCompClick4MidBottomLeft: function () {
-                this.$emit("onCompClick4MidBottomLeft", "CompGisFilter1", "所有");
+                this.$emit("onCompClick4MidBottomLeft", {a:1});
             },
 
             //#endregion
             //#region 3rd
-
+            doSth: function (oParams) {
+                console.log("CompGisFilter1", oParams);
+            },
             //#endregion
         }
     }

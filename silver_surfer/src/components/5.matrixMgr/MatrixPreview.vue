@@ -1,10 +1,5 @@
 <template>
     <div class="matrixMgrWrapper">
-        <div class="toolbar">
-            <marvel-toolbar v-bind:items="toolbarItems"
-                            v-on:onToolbarItemClick="onToolbarItemClick">
-            </marvel-toolbar>
-        </div>
         <div class="contArea"
              v-show="pageType == 'matrix'">
             <div class="part1">
@@ -23,9 +18,6 @@
                             <marvel-primary-button label="添加组件"
                                                    v-on:onClick="onClick4Mid">
                             </marvel-primary-button>
-                            <marvel-primary-button label="添加联动关系"
-                                                   v-on:onClick="onClick4MsgMap">
-                            </marvel-primary-button>
                         </div>
                         <div class="addComponentBtn2">
                             <marvel-primary-button label="添加组件"
@@ -37,10 +29,7 @@
                                        :ref="curPageItem.compName4MidBottomLeft"
                                        v-on:onCompClick4MidBottomLeft="onCompClick4MidBottomLeft"></component>
                         </div>
-                        <component :is="curPageItem.compName4Mid"
-                                   :ref="curPageItem.compName4Mid"
-                                   v-on:onCompClick4Mid="onCompClick4Mid"
-                                   v-on:onCompGoDown4Mid="onCompGoDown4Mid"></component>
+                        <component :is="curPageItem.compName4Mid" :ref="curPageItem.compName4Mid"></component>
                     </div>
                     <div class="right">
                         <div class="addComponentBtn3">
@@ -59,8 +48,7 @@
                                 <div v-for="compName4Right in folderPanel.compNameLst">
                                     <component :is="compName4Right"
                                                :ref="compName4Right"
-                                               v-on:onCompClick4Right="onCompClick4Right"
-                                               v-on:onCompGoDown4Right="onCompGoDown4Right"></component>
+                                               v-on:onCompClick4Right="onCompClick4Right"></component>
                                 </div>
                             </slot>
                         </marvel-fold-panel>
@@ -94,10 +82,6 @@
         </div>
         <matrix-dialog ref="refMatrixDialog"
                        v-on:afterApplyDialog="afterApplyDialog"></matrix-dialog>
-        <matrix-msg-map-dialog ref="refMatrixMsgMapDialog"
-                               :msgMap="curPageItem.msgMap"
-                               v-on:afterMatrixMsgMapDialogClose="afterMatrixMsgMapDialogClose">
-        </matrix-msg-map-dialog>
     </div>
 </template>
 
@@ -112,12 +96,10 @@
     import CompGisFilter1 from "./libs/CompGisFilter1";
     import CompGrid1 from "./libs/CompGrid1";
     import CompChart1 from "./libs/CompChart1";
-    import MatrixMsgMapDialog from "./MatrixMsgMapDialog";
     //#endregion
 
     export default {
         components: {
-            MatrixMsgMapDialog,
             MarvelFoldPanel,
             MatrixDialog,
             MarvelPrimaryButton,
@@ -129,7 +111,7 @@
             CompChart1,
             //#endregion
         },
-        name: 'MatrixMgr',
+        name: 'MatrixPreview',
         data: function () {
             return {
                 //#region toolbar
@@ -173,18 +155,6 @@
                         bIsExpand: true,
                         compNameLst: [],
                     }],
-                    msgMap: {
-                        bottom: [
-                            ["compName4Mid"],
-                            ["compName4Right", 0, 0],
-                            ["compName4Right", 0, 1],
-                        ],
-                        right: "compName4Mid",
-                        mid: [
-                            ["compName4Right", 0, 0],
-                            ["compName4Right", 0, 1],
-                        ],
-                    },
                 },
                 //#endregion
                 //#region conf
@@ -260,7 +230,6 @@
                             bIsExpand: true,
                             compNameLst: [],
                         }],
-                        msgMap: {},
                     };
                     this.pageItemLst.splice(iIndex, 0, oNew);
                     this.curPageItem = oNew;
@@ -307,57 +276,25 @@
 
             //#region msg
 
-            onClick4MsgMap: function () {
-                this.$refs.refMatrixMsgMapDialog.showDialogEx();
-            },
-            afterMatrixMsgMapDialogClose: function (oRes) {
-                this.curPageItem.msgMap = oRes;
-            },
-
-            onCompClick4MidBottomLeft: function (oParams) {
-                for (var i = 0; i < this.curPageItem.msgMap.bottom.length; i++) {
-                    var oSub = this.curPageItem.msgMap.bottom[i];
-                    //1.如果是联动compName4Mid
-                    if (oSub.length != 3) {
-                        var strTo = this.curPageItem[oSub[0]];
-                        var strMsg = "[cmd]" + strTo + ".doSth";
-                        console.log(strMsg, oParams);
-                        this.$refs[strTo].doSth(oParams);
-                    }
-                    //2.如果是联动compName4Right
-                    else {
-                        var strTo = this.curPageItem.folderPanelLst[oSub[1]].compNameLst[oSub[2]];
-                        var strMsg = "[cmd]" + strTo + ".doSth";
-                        console.log(strMsg, oParams);
-                        this.$refs[strTo][0].doSth(oParams);
-                    }
-                }
+            /**
+             * 潜规则：arrMsgMap格式
+             * var arrMsg = [{
+             *       to: "compName4Mid",
+             *       doSth: "highLightGis",
+             *       params: {a:1}
+             *   }, {
+             *       to: "compName4Right",
+             *       doSth: "reloadData",
+             *       params: {a:1}
+             *   }];
+             * @param arrMsgMap
+             */
+            onCompClick4MidBottomLeft: function (arrMsgMap) {
+                console.log(arrMsgMap);
             },
 
-            onCompClick4Right: function (oParams) {
-                var oSub = this.curPageItem.msgMap.right;
-                var strTo = this.curPageItem[oSub];
-                var strMsg = "[cmd]" + strTo + ".doSth";
-                console.log(strMsg, oParams);
-                this.$refs[strTo].doSth(oParams);
-            },
-            onCompGoDown4Right: function (oParams) {
-                console.log(oParams);
-            },
-
-            onCompClick4Mid: function (oParams) {
-                for (var i = 0; i < this.curPageItem.msgMap.mid.length; i++) {
-                    var oSub = this.curPageItem.msgMap.mid[i];
-                    //1.如果是联动compName4Right
-                    if (oSub.length == 3) {
-                        var strTo = this.curPageItem.folderPanelLst[oSub[1]].compNameLst[oSub[2]];
-                        var strMsg = "[cmd]" + strTo + ".doSth";
-                        console.log(strMsg, oParams);
-                        this.$refs[strTo][0].doSth(oParams);
-                    }
-                }
-            },
-            onCompGoDown4Mid: function (oParams) {
+            onCompClick4Right: function (strCompName, oParams) {
+                console.log(strCompName);
                 console.log(oParams);
             },
 

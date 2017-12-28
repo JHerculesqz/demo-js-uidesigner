@@ -1,6 +1,7 @@
 <template>
     <div class="wrapper">
-        <marvel-leaflet ref="refGis" id="refGis"></marvel-leaflet>
+        <marvel-leaflet ref="refGis" id="refGis"
+                        v-on:onClick="onClick"></marvel-leaflet>
     </div>
 </template>
 
@@ -66,12 +67,28 @@
 
             //#endregion
 
+            //#region gis
+
+            onClick: function () {
+                this.onCompClick4Mid({a: 41});
+                //this.onCompGoDown4Mid({a: 42});
+            },
+
+            //#endregion
+
             //#endregion
             //#region callback
-
+            onCompClick4Mid: function (oParams) {
+                this.$emit("onCompClick4Mid", oParams);
+            },
+            onCompClick4MidNode: function (oParams) {
+                this.$emit("onCompClick4MidNode", oParams);
+            },
             //#endregion
             //#region 3rd
-
+            doSth: function (oParams) {
+                console.log("CompGis1", oParams);
+            },
             //#endregion
         }
     }
