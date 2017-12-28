@@ -75,8 +75,8 @@
             //#region gis
 
             onClick: function () {
-//                this.onCompClick4Mid({a: 41});
-                this.onCompGoDown4Mid({a: 42});
+                this.onCompClick4Mid({a: 41});
+//                this.onCompGoDown4Mid({a: 42});
             },
 
             //#endregion

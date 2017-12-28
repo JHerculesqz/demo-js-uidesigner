@@ -48,8 +48,8 @@
             //#region callback
 
             onCompClick4Right: function () {
-//                this.$emit("onCompClick4Right", {a: 31});
-                this.$emit("onCompGoDown4Right", {a: 32});
+                this.$emit("onCompClick4Right", {a: 31});
+//                this.$emit("onCompGoDown4Right", {a: 32});
             },
 
             //#endregion
